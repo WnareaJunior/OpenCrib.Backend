@@ -1,5 +1,8 @@
 ﻿namespace OpenCrib.api.Models
 {
+    /// <summary>
+    /// Address
+    /// </summary>
     public class Address
     {
         public string addressLine1 { get; set; }
