@@ -41,8 +41,8 @@ namespace OpenCrib.api.Models
         [BsonElement("phoneNumber")]
         public string PhoneNumber { get; set; }
 
-        [BsonElement("posts")]
-        public List<Post>? Posts { get; set; }
+        [BsonElement("parties")]
+        public List<UsersParty>? UserParties { get; set; }
 
         [BsonElement("latitude")]
         public double? Latitude { get; set; }
