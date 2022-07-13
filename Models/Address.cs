@@ -1,14 +1,25 @@
-﻿namespace OpenCrib.api.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace OpenCrib.api.Models
 {
     /// <summary>
     /// Address
     /// </summary>
     public class Address
     {
-        public string addressLine1 { get; set; }
-        public string? addressLine2 { get; set; }
-        public string city { get; set; }
-        public string state { get; set; }
-        public string  postalCode { get; set; }
+        [BsonElement("addressLine1")]
+        public string AddressLine1 { get; set; }
+
+        [BsonElement("addressLine2")]
+        public string? AddressLine2 { get; set; }
+
+        [BsonElement("city")]
+        public string City { get; set; }
+
+        [BsonElement("state")]
+        public string State { get; set; }
+
+        [BsonElement("postalCode")]
+        public string  PostalCode { get; set; }
     }
 }
