@@ -12,15 +12,17 @@ namespace OpenCrib.api.Services
     {
         private readonly IMongoCollection<User> _userCollection;
         private readonly IMongoCollection<Party> _partyCollection;
+        private readonly IMongoCollection<ZipCode> _zipCodeCollection;
+        private readonly List<ZipCode> _zipList;
 
-       
         public MongoDBService(IOptions<MongoDBSettings> mongoDBSettings)
         {
             MongoClient client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
             IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
             _userCollection = database.GetCollection<User>(mongoDBSettings.Value.UserCollection);
             _partyCollection = database.GetCollection<Party>(mongoDBSettings.Value.PartyCollection);
-           
+            _zipCodeCollection = database.GetCollection<ZipCode>(mongoDBSettings.Value.ZipCodeCollection);
+            _zipList = _zipCodeCollection.Aggregate().ToList();
 
         }
         public async Task CreateAsync(User user)
@@ -44,6 +46,36 @@ namespace OpenCrib.api.Services
             
            
         }
+
+        public async Task<List<Party>> PartiesNearZip(ZipCode zipCode,int range)
+        {
+            
+
+            
+           
+
+
+
+            int index = _zipList.IndexOf(zipCode);
+            var partiesNearby = await _partyCollection.Find(x => x.Address.PostalCode == _zipList[index].Zip).ToListAsync();
+
+            for (int i = index; i < _zipList.Count&& i <index+range; i++)
+            {
+                partiesNearby.AddRange(await _partyCollection.Find(x => x.Address.PostalCode == _zipList[i].Zip).ToListAsync());
+            }
+            for (int i = index; i >= 0 && i > index - range; i--)
+            {
+                partiesNearby.AddRange(await _partyCollection.Find(x => x.Address.PostalCode == _zipList[i].Zip).ToListAsync());
+            }
+
+
+            return partiesNearby;
+
+
+
+
+        }
+
 
         public async Task DeleteAsync(string id)
         {
