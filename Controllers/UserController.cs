@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenCrib.api.Models;
 using OpenCrib.api.Services;
+
 //using System.Web.Http;
 
 namespace TestAPI.Controllers
@@ -56,12 +57,14 @@ namespace TestAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetNearbyParties/{postalCode}")]
-        public async Task<List<Party>> GetNearbyParties(string postalCode)
+        [Route("GetPartiesNearby/{zipCode}/{range}")]
+        public async Task<List<Party>> GetPartiesNearby(string zipcode, int range)
         {
+            
 
+            
 
-            return await _mongoDBService.PartiesInsideZip(postalCode);
+            return await _mongoDBService.PartiesNearZip(zipcode, range);
 
 
         }

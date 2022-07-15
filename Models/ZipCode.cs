@@ -11,5 +11,8 @@ namespace OpenCrib.api.Models
 
         [BsonElement("zipcode")]
         public string Zip { get; set; }
+
+        public string get() { return Zip; }
+        public void set(string zip) { Zip = zip; }
     }
 }

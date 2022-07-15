@@ -4,8 +4,6 @@ using OpenCrib.api.Models;
 using MongoDB.Bson;
 
 
-
-
 namespace OpenCrib.api.Services
 {
     public class MongoDBService
@@ -14,6 +12,7 @@ namespace OpenCrib.api.Services
         private readonly IMongoCollection<Party> _partyCollection;
         private readonly IMongoCollection<ZipCode> _zipCodeCollection;
         private readonly List<ZipCode> _zipList;
+        private readonly List<String> _zipStringList = new List<string>();
 
         public MongoDBService(IOptions<MongoDBSettings> mongoDBSettings)
         {
@@ -23,7 +22,10 @@ namespace OpenCrib.api.Services
             _partyCollection = database.GetCollection<Party>(mongoDBSettings.Value.PartyCollection);
             _zipCodeCollection = database.GetCollection<ZipCode>(mongoDBSettings.Value.ZipCodeCollection);
             _zipList = _zipCodeCollection.Aggregate().ToList();
-
+            foreach (ZipCode item in _zipList)
+            {
+                _zipStringList.Add(item.get());
+            }
         }
         public async Task CreateAsync(User user)
         {
@@ -47,16 +49,10 @@ namespace OpenCrib.api.Services
            
         }
 
-        public async Task<List<Party>> PartiesNearZip(ZipCode zipCode,int range)
+        public async Task<List<Party>> PartiesNearZip(string zipCode,int range)
         {
+            int index = _zipStringList.IndexOf(zipCode);
             
-
-            
-           
-
-
-
-            int index = _zipList.IndexOf(zipCode);
             var partiesNearby = await _partyCollection.Find(x => x.Address.PostalCode == _zipList[index].Zip).ToListAsync();
 
             for (int i = index; i < _zipList.Count&& i <index+range; i++)
