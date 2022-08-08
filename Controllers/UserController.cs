@@ -28,6 +28,28 @@ namespace TestAPI.Controllers
             return await _mongoDBService.GetAllAsync();
         }
 
+        [HttpGet]
+        [Route("FollowUser/{myUserId}/{userId}")]
+        public async Task FollowUser(string myUserId,string userId)
+        {
+            await FollowUser(myUserId,userId);
+        }
+
+        [HttpGet]
+        [Route("BlockUser")]
+
+        [HttpPost]
+        [Route("BlockUser")]
+
+        [HttpGet]
+        [Route("GetUser/{username}")]
+        public async Task<User> GetUser(string username) 
+        { 
+        
+            return await _mongoDBService.GetUserAsync(username);  
+        
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
@@ -55,6 +77,18 @@ namespace TestAPI.Controllers
         {
             _mongoDBService = mongoDBService;
         }
+
+        [HttpPost]
+        [Route("NewParty")]
+
+        [HttpGet]
+        [Route("Rsvp")]
+
+        [HttpGet]
+        [Route("AllowIntoParty")]
+
+        [HttpPost]
+        [Route("PostComment")]
 
         [HttpGet]
         [Route("GetPartiesNearby/{zipCode}/{range}")]
