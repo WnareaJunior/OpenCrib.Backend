@@ -32,6 +32,9 @@ namespace OpenCrib.api.Models
         [BsonElement("following")]
         public List<string>? Following { get; set; }
 
+        [BsonElement("friends")]
+        public List<string>? Friends { get; set; }
+
         [BsonElement("partiesAttended")]
         public int PartiesAttended { get; set; } = 0;
 
