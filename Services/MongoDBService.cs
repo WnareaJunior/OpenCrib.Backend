@@ -32,14 +32,58 @@ namespace OpenCrib.api.Services
             await _userCollection.InsertOneAsync(user);
             return;
         }
+
+        public async Task<User> GetUserAsync(string username) 
+        {
+
+            
+            return await _userCollection.Find( x => x.Username == username).FirstAsync();
+
+        }
         public async Task<List<User>> GetAllAsync()
         {
             return await _userCollection.Find(new BsonDocument()).ToListAsync();
             
         }
 
+        public async void FollowUser(string myUserId, string theirUserId)
+        {
+            var theirFilter = Builders<User>.Filter.Eq(x => x.Id, theirUserId);
+            var theirCursor =await _userCollection.FindAsync<User>(x => x.Id == theirUserId);
+            var theirUser= theirCursor.First();
+            var myFilter = Builders<User>.Filter.Eq(x => x.Id, myUserId);
+            var myCursor = await _userCollection.FindAsync<User>(x => x.Id == myUserId);
+            var myUser = myCursor.First();
+            if (theirUser != null && myUser != null)
+            {
+                if (theirUser.Following.Contains(myUser.Id))
+                {
+                    myUser.Following.Add(theirUserId);
+                    myUser.Friends.Add(theirUserId);
+                    theirUser.Friends.Add(myUserId);
+                    theirUser.Followers.Add(myUserId);
+                }
+                else
+                {
+                    myUser.Following.Add(theirUserId);
+                    theirUser.Followers.Add(myUserId);
+                }
+
+                _userCollection.FindOneAndReplace<User>(myFilter, myUser);
+                _userCollection.FindOneAndReplace(theirFilter, theirUser);
+                    
+            }
+            
+
+
+
+
+
+
+        }
+
         //GetNearbyParties returns post because all posts are about parties(duh)
-        public async Task<List<Party>> PartiesInsideZip(string postalCode)
+        public async Task<List<Party>> PartiesInsideZipAsync(string postalCode)
         {
            
 
@@ -71,6 +115,7 @@ namespace OpenCrib.api.Services
 
 
         }
+
 
 
         public async Task DeleteAsync(string id)

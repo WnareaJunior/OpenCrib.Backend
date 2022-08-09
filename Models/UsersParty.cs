@@ -28,6 +28,9 @@ namespace OpenCrib.api.Models
         [BsonElement("address")]
         public Address? Address { get; set; }
 
+        [BsonElement("tags")]
+        public List<string>? Tags { get; set; }
+
 
 
 
