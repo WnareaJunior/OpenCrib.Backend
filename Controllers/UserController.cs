@@ -82,7 +82,12 @@ namespace TestAPI.Controllers
         [Route("NewParty")]
 
         [HttpGet]
-        [Route("Rsvp")]
+        [Route("Rsvp/{myUserId}/{partyId}")]
+
+        public void Rsvp(string myUserId, string partyId)
+        {
+            _mongoDBService.CreateRsvp(myUserId, partyId);
+        }
 
         [HttpGet]
         [Route("AllowIntoParty")]
