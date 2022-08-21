@@ -22,6 +22,10 @@ namespace TestAPI.Controllers
             _mongoDBService = mongoDBService;
         }
 
+
+        //
+        // Returns all Users in the collection
+        //
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<List<User>> GetAll()
@@ -29,6 +33,9 @@ namespace TestAPI.Controllers
             return await _mongoDBService.GetAllAsync();
         }
 
+        //
+        // Makes your account follow a user 
+        //
         [HttpGet]
         [Route("FollowUser/{myUserId}/{userId}")]
         public async Task FollowUser(string myUserId,string userId)
@@ -36,12 +43,18 @@ namespace TestAPI.Controllers
             await FollowUser(myUserId,userId);
         }
 
+        //
+        // blocks a user
+        //
         [HttpGet]
         [Route("BlockUser")]
 
         [HttpPost]
         [Route("BlockUser")]
 
+        //
+        // Returns the info of a user based on if it is available
+        //
         [HttpGet]
         [Route("GetUser/{username}")]
         public async Task<User> GetUser(string username) 
@@ -51,7 +64,9 @@ namespace TestAPI.Controllers
         
         }
 
-
+        //
+        // Adds a new user
+        //need to add validations for new users
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
         {
@@ -59,6 +74,9 @@ namespace TestAPI.Controllers
             return CreatedAtAction(nameof(GetAll), new {id = user.Id}, user);
         }
 
+        //
+        // Deletes a user
+        //
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -79,9 +97,15 @@ namespace TestAPI.Controllers
             _mongoDBService = mongoDBService;
         }
 
+        //
+        // Creates a new party
+        //
         [HttpPost]
         [Route("NewParty")]
 
+        //
+        // rsvps a party
+        //
         [HttpGet]
         [Route("Rsvp/{myUserId}/{partyId}")]
 
@@ -90,12 +114,21 @@ namespace TestAPI.Controllers
             _mongoDBService.CreateRsvp(myUserId, partyId);
         }
 
+        //
+        // Whitelists people for your party
+        //
         [HttpGet]
         [Route("AllowIntoParty")]
 
+        //
+        // Posts comment to a posted party
+        //
         [HttpPost]
         [Route("PostComment")]
 
+        //
+        // Get Parties Nearby using your zipcode
+        //
         [HttpGet]
         [Route("GetPartiesNearby/{zipCode}/{range}")]
         public async Task<List<Party>> GetPartiesNearby(string zipcode, int range)
