@@ -8,6 +8,7 @@ using OpenCrib.api.Services;
 
 namespace TestAPI.Controllers
 {
+    //lol
     [ApiController]
     [Route("api/[controller]")]
 
@@ -102,7 +103,12 @@ namespace TestAPI.Controllers
         // rsvps a party
         //
         [HttpGet]
-        [Route("Rsvp")]
+        [Route("Rsvp/{myUserId}/{partyId}")]
+
+        public void Rsvp(string myUserId, string partyId)
+        {
+            _mongoDBService.CreateRsvp(myUserId, partyId);
+        }
 
         //
         // Whitelists people for your party

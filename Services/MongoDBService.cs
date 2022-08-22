@@ -33,6 +33,16 @@ namespace OpenCrib.api.Services
             return;
         }
 
+        public async void CreateRsvp(string myUserId, string partyId)
+        {
+            var partyFilter = Builders<Party>.Filter.Eq(x => x.Id, partyId);
+            var partyCursor = await _partyCollection.FindAsync<Party>(partyFilter);
+            var partyObject = partyCursor.First();
+            partyObject.Rsvps.Add(myUserId);
+
+            _partyCollection.FindOneAndReplace(partyFilter, partyObject);
+        }
+
         public async Task<User> GetUserAsync(string username) 
         {
 
@@ -49,10 +59,10 @@ namespace OpenCrib.api.Services
         public async void FollowUser(string myUserId, string theirUserId)
         {
             var theirFilter = Builders<User>.Filter.Eq(x => x.Id, theirUserId);
-            var theirCursor =await _userCollection.FindAsync<User>(x => x.Id == theirUserId);
+            var theirCursor =await _userCollection.FindAsync<User>(theirFilter);
             var theirUser= theirCursor.First();
             var myFilter = Builders<User>.Filter.Eq(x => x.Id, myUserId);
-            var myCursor = await _userCollection.FindAsync<User>(x => x.Id == myUserId);
+            var myCursor = await _userCollection.FindAsync<User>(myFilter);
             var myUser = myCursor.First();
             if (theirUser != null && myUser != null)
             {
@@ -73,6 +83,8 @@ namespace OpenCrib.api.Services
                 _userCollection.FindOneAndReplace(theirFilter, theirUser);
                     
             }
+
+
             
 
 
