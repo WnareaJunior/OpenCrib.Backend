@@ -136,6 +136,22 @@ namespace OpenCrib.api.Services
             await _userCollection.DeleteOneAsync(filter);
             return;
         }
+        
+        public async Task PostCommentAsync(String comment,String partyId,String userId)
+        {
+            var filter = Builders<Party>.Filter.Eq(x => x.Id, partyId);
+            var cursor = _partyCollection.Find(filter);
+            var partyObj = cursor.FirstOrDefault(); 
+            if (partyObj != null)
+            {
+                Comment cmt = new Comment(partyId,comment);
+                
+                partyObj.Comments.Add(cmt);
+                _partyCollection.FindOneAndReplace(filter, partyObj);
+            }
+
+            return;
+        }
 
     }
 }
