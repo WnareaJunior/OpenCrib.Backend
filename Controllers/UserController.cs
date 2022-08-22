@@ -45,11 +45,7 @@ namespace TestAPI.Controllers
         //
         // blocks a user
         //
-        [HttpGet]
-        [Route("BlockUser")]
-
-        [HttpPost]
-        [Route("BlockUser")]
+       
 
         //
         // Returns the info of a user based on if it is available
@@ -119,6 +115,12 @@ namespace TestAPI.Controllers
         //
         [HttpPost]
         [Route("PostComment")]
+        public async Task<IActionResult> PostComment(String comment, String partyId, String userId)
+        {
+            await _mongoDBService.PostCommentAsync(comment,partyId,userId);
+            return NoContent();
+
+        }
 
         //
         // Get Parties Nearby using your zipcode
