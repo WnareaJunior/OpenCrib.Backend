@@ -1,6 +1,6 @@
 # OpenCrib.Backend
 
-####################################LIST OF ALL CURRENT API ENDPOINTS AND THEIR USE###################################
+###########################LIST OF ALL CURRENT API ENDPOINTS AND THEIR USE##########################
 
 BASE URL :
 https://opencribdevapi.azurewebsites.net/api/
@@ -32,6 +32,6 @@ https://opencribdevapi.azurewebsites.net/api/Party/PostComment
 GET PARTIES NEARBY:
 https://opencribdevapi.azurewebsites.net/api/Party/GetPartiesNearby/{zipCode}/{range}
 
-####################################LIST OF SUGGESTED ENDPOINTS###################################
+#################LIST OF SUGGESTED ENDPOINTS#################
 
 # ALLOW A USER INTO YOUR PARTY
