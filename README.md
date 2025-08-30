@@ -196,27 +196,6 @@ Content-Type: application/json
 
 ---
 
-## 📦 Repository Layout (suggested)
-
-```
-OpenCrib.Backend/
-├─ Controllers/
-│  ├─ UserController.cs
-│  └─ PartyController.cs
-├─ Models/
-├─ Services/
-│  ├─ UserService.cs
-│  └─ PartyService.cs
-├─ Data/
-│  └─ MongoContext.cs
-├─ DTOs/
-├─ appsettings.json
-├─ Program.cs
-├─ README.md
-```
-
----
-
 ## 🔒 Security (Roadmap)
 
 * JWT-based authentication & role-based authorization (Host vs. Attendee)
